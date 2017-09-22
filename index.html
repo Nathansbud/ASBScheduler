@@ -11,8 +11,9 @@
 <body>
 	<main>
 		<h1>ASB Scheduler</h1>
-		<p>I'm gonna be real with you: I'm sick of everybody asking me what classes we have first. So, I'm building a little schedule app for you to check. Hoorah!</p>
+		<p id="intro">I'm gonna be real with you: I'm sick of everybody asking me what classes we have first. So, I'm building a little schedule app for you to check. Hoorah!</p>
 
+		<button id="change-name">Change Name</button>
 		<button id="selector">Change Schedule</button><br>
 		<select id="weekday-selector" name="weekday-selector">
 			<option value="1">Monday</option>
@@ -22,6 +23,19 @@
 			<option value="5">Friday</option>
 		</select>
 		<hr>
+
+		<div id="edit-menu">
+			<form name="class-list" id="class-list">
+				<span>A Block: </span><input type="text" id="a-block" value="A Block"><br>
+				<span>B Block: </span><input type="text" id="b-block" value="B Block"><br>
+				<span>C Block: </span><input type="text" id="c-block" value="C Block"><br>
+				<span>D Block: </span><input type="text" id="d-block" value="D Block"><br>
+				<span>E Block: </span><input type="text" id="e-block" value="E Block"><br>
+				<span>F Block: </span><input type="text" id="f-block" value="F Block"><br>
+				<span>G Block: </span><input type="text" id="g-block" value="G Block"><br>
+				<span>H Block: </span><input type="text" id="h-block" value="H Block"><br>
+			</form>
+		</div>
 
 		<div id="schedule-div">
 			<p id="schedule-title">Schedule</p>

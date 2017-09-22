@@ -21,6 +21,6 @@ td, th {
 	background-color: transparent;
 }
 
-#weekday-selector:first-child, #advisory {
+#weekday-selector:first-child, #advisory, #edit-menu {
 	display: none;
 }
