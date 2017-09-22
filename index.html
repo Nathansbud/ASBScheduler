@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<title>ASB Scheduler</title> <!--Page Title-->
+	<link rel="stylesheet" href="styles.css"> <!--Link Stylesheet-->
+	<meta charset="UTF-8">
+	<meta name="author" content="Zack Amiton"> <!-- Ohhh...THIS is why citation programs can fail. -->
+	<meta name="description" content="Google me tbh">
+	<noscript>This site requires JS...you nerd. What kind of human being doesn't enable JS on their browsers?</noscript>
+</head>
+<body>
+	<main>
+		<h1>ASB Scheduler</h1>
+		<p>I'm gonna be real with you: I'm sick of everybody asking me what classes we have first. So, I'm building a little schedule app for you to check. Hoorah!</p>
+
+		<button id="selector">Change Schedule</button><br>
+		<select id="weekday-selector" name="weekday-selector">
+			<option value="1">Monday</option>
+			<option value="2">Tuesday</option>
+			<option value="3">Wednesday</option>
+			<option value="4">Thursday</option>
+			<option value="5">Friday</option>
+		</select>
+		<hr>
+
+		<div id="schedule-div">
+			<p id="schedule-title">Schedule</p>
+
+			<table id="schedule">	
+				<colgroup>
+					<col id="class-times" width="125">
+					<col id="day-1" style="background-color: lightgreen;" width="85">
+					<col id="day-2" style="background-color: lightblue;" width="85">
+					<col id="day-3" style="background-color: lightgreen;" width="85">
+					<col id="day-4" style="background-color: lightblue;" width="85">
+					<col id="day-5" style="background-color: lightgreen;" width="85">
+					<col id="day-6" style="background-color: lightblue;" width="85">
+					<col id="day-7" style="background-color: lightgreen;" width="85">
+					<col id="day-8" style="background-color: lightblue;" width="85">
+				</colgroup>
+				
+				<tr>
+					<th id="first-cell">&nbsp;</th>
+					<th style="background-color: white;" colspan="8">Day</th>
+				</tr>
+
+				<tr>
+					<th>&nbsp;</th>
+					<th>1</th>
+					<th>2</th>
+					<th>3</th>
+					<th>4</th>
+					<th>5</th>
+					<th>6</th>
+					<th>7</th>
+					<th>8</th>
+				</tr>
+
+				<tr id="b1">
+					<td id="t0"></td>
+					<td class="a">A</td>
+					<td class="e">E</td>
+					<td class="b">B</td>
+					<td class="f">F</td>
+					<td class="c">C</td>
+					<td class="g">G</td>
+					<td class="d">D</td>
+					<td class="h">H</td>
+				</tr>
+
+				<tr id="br1">
+					<td id="t1"></td>
+					<td>Break</td>
+					<td>Break</td>
+					<td>Break</td>
+					<td>Break</td>
+					<td>Break</td>
+					<td>Break</td>
+					<td>Break</td>
+					<td>Break</td>
+				</tr>
+
+
+				<tr id="b2">
+					<td id="t2"></td>
+					<td class="b">B</td>
+					<td class="f">F</td>
+					<td class="c">C</td>
+					<td class="g">G</td>
+					<td class="d">D</td>
+					<td class="h">H</td>
+					<td class="a">A</td>
+					<td class="e">E</td>
+				</tr>
+
+				<tr id="lunch">
+					<td id="t3"></td>
+					<td>Lunch</td>
+					<td>Lunch</td>
+					<td>Lunch</td>
+					<td>Lunch</td>
+					<td>Lunch</td>
+					<td>Lunch</td>
+					<td>Lunch</td>
+					<td>Lunch</td>
+				</tr>
+
+
+				<tr id="advisory">
+					<td>11:55-12:35</td>
+					<td>Advisory</td>
+					<td>Advisory</td>
+					<td>Advisory</td>
+					<td>Advisory</td>
+					<td>Advisory</td>
+					<td>Advisory</td>
+					<td>Advisory</td>
+					<td>Advisory</td>
+				</tr>
+
+				<tr id="b3">
+					<!-- <td></td> -->
+					<td id="t4"></td>
+					<td class="c">C</td>
+					<td class="g">G</td>
+					<td class="d">D</td>
+					<td class="h">H</td>
+					<td class="a">A</td>
+					<td class="e">E</td>
+					<td class="b">B</td>
+					<td class="f">F</td>
+				</tr>
+
+				<tr id="second-lunch">
+					<td id="t5"></td>
+					<td>2nd Lunch</td>
+					<td>2nd Lunch</td>
+					<td>2nd Lunch</td>
+					<td>2nd Lunch</td>
+					<td>2nd Lunch</td>
+					<td>2nd Lunch</td>
+					<td>2nd Lunch</td>
+					<td>2nd Lunch</td>
+				</tr>
+
+
+				<tr id="b4">
+					<td id="t6"></td>
+					<td class="d">D</td>
+					<td class="h">H</td>
+					<td class="a">A</td>
+					<td class="e">E</td>
+					<td class="b">B</td>
+					<td class="f">F</td>
+					<td class="c">C</td>
+					<td class="g">G</td>
+				</tr>
+			</table>
+		</div>
+	</main>
+
+	<script src="schedule.js"></script>
+</body>
