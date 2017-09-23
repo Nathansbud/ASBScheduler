@@ -10,7 +10,7 @@ button, form, select {
 	font-family: 'Roboto', sans-serif;
 }
 
-h1, h2, p {
+h1, h2, p, span {
 	color: black;
 }
 
@@ -28,15 +28,34 @@ td, th {
 	border: 1px solid black;
 	border-collapse: collapse;
 	text-align: center;
-	background-color: white;
 }
 
-.split-cell {
-	border: none!important;
-	background-color: transparent;
+thead tr:nth-child(1) {
+	background: transparent;
+	border: none;
 }
 
+thead tr:nth-child(2) th:nth-of-type(odd) {
+ 	background: lightblue;
+}
 
-#weekday-selector:first-child, #advisory, #edit-menu, #experimental-features, #homework-edit-menu {
+thead tr:nth-child(2) th:nth-of-type(even) {
+	background: lightgreen;
+}
+
+thead tr:nth-child(1) th:nth-of-type(1), thead tr:nth-child(1) th:nth-of-type(2) {
+	border: none;
+	background: none;
+}
+
+tbody tr[data-block="class"] {
+	background: white;
+}
+
+tbody tr[data-block="break"] {
+	background: silver;
+}
+
+#weekday-selector:first-child, div:not(#schedule-div):not(#current-homework-menu) {
 	display: none;
 }

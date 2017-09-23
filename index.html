@@ -6,28 +6,26 @@
 	<meta charset="UTF-8">
 	<meta name="author" content="Zack Amiton"> <!-- Ohhh...THIS is why citation programs can fail. -->
 	<meta name="description" content="Google me tbh">
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
 	<!--Nothing wrong with this, but on low internet (which I'm on now, this drastically slows things down. Only turn it on once on a more stable connection.)  -->
 	<noscript>This site requires JS...you nerd. What kind of human being doesn't enable JS on their browsers?</noscript>
 </head>
 <body>
 	<main>
 		<h1 id="title">ASB Scheduler</h1>
-		<h2 id="intro">I'm gonna be real with you: I'm sick of everybody asking me what classes we have first. So, I'm building a little schedule app for you to check. Hoorah!</h2>
+		<h2 id="intro"></h2>
 
 		<hr>
 
 		<p>Settings Menu</p>
 
 		<button id="change-name">Change Name</button>
-		<button id="selector">Change Schedule</button>
+		<button id="selector">Edit Schedule</button>
 		<button id="theme-switcher">Dark Theme</button>
 		<button id="switch-grade">Switch Grade (MS)</button>
 		<button id="experimental-settings">Show Experimental Menu</button>
 		<button id="show-schedule">Hide Schedule</button>
-		<button id="show-homework">Show Homework</button>
-		<button id="clear-homework">Clear Homework</button><br>
-		
+		<button id="show-homework">Edit Homework</button><br>		
 		<hr>
 
 		<span>Showing: </span><select id="weekday-selector" name="weekday-selector">
@@ -54,13 +52,31 @@
 		</div>
 
 		<div id="experimental-features">
-
 			<button id="rotate-times">Rotate Times</button><br>
+			<button id="reset-cache">Reset Data</button><br>
+			<button id="block-colors">Enable Block Colors</button><br>
+			<button id="show-colors">Show Color Editor</button><br>
 			<hr>
+
+			<div id="color-editor-menu">
+				<h3>Block Colors</h3>
+				<p>This can be entered via a default CSS color name, or through a hexadecimal code (#000000 -> #FFFFFF)</p>
+				<form name="color-editor" id="color-editor">
+					<span>A Block: </span><input type="text" id="a-color" value=""><br>
+					<span>B Block: </span><input type="text" id="b-color" value=""><br>
+					<span>C Block: </span><input type="text" id="c-color" value=""><br>
+					<span>D Block: </span><input type="text" id="d-color" value=""><br>
+					<span>E Block: </span><input type="text" id="e-color" value=""><br>
+					<span>F Block: </span><input type="text" id="f-color" value=""><br>
+					<span>G Block: </span><input type="text" id="g-color" value=""><br>
+					<span>H Block: </span><input type="text" id="h-color" value=""><br>
+					<hr>
+				</form>
+			</div>
 		</div>
 
 		<div id="schedule-div">
-			<p id="schedule-title">Schedule</p>
+			<h2 id="schedule-title">Schedule</h2>
 
 			<table id="schedule">	
 				<colgroup>
@@ -75,124 +91,127 @@
 					<col id="day-8" width="85">
 				</colgroup>
 				
-				<tr>
-					<th class="split-cell" rowspan="2">&nbsp;</th>
-					<th class="split-cell"></th>
-					<th style="background-color: white;" colspan="8">Day</th>
-				</tr>
+				<thead>
+					<tr>
+						<th class="split-cell" rowspan="2">&nbsp;</th>
+						<th class="split-cell" rowspan="2"></th>
+						<th style="background-color: white;" colspan="8">Day</th>
+					</tr>
 
-				<tr>
-					<th class="split-cell" >&nbsp;</th>
-					<th>1</th>
-					<th>2</th>
-					<th>3</th>
-					<th>4</th>
-					<th>5</th>
-					<th>6</th>
-					<th>7</th>
-					<th>8</th>
-				</tr>
+					<tr>
+						<th>1</th>
+						<th>2</th>
+						<th>3</th>
+						<th>4</th>
+						<th>5</th>
+						<th>6</th>
+						<th>7</th>
+						<th>8</th>
+					</tr>
+				</thead>
 
-				<tr id="b1">
-					<td rowspan="10"><p id="times-column">Times</p></td>
-					<td id="t0"></td>
-					<td class="a">A</td>
-					<td class="e">E</td>
-					<td class="b">B</td>
-					<td class="f">F</td>
-					<td class="c">C</td>
-					<td class="g">G</td>
-					<td class="d">D</td>
-					<td class="h">H</td>
-				</tr>
+				<tbody>
+					<tr id="b1" data-block="class">
+						<td id="times" rowspan="10"><p id="times-column">Times</p></td>
+						<td id="t0"></td>
+						<td class="a">A</td>
+						<td class="e">E</td>
+						<td class="b">B</td>
+						<td class="f">F</td>
+						<td class="c">C</td>
+						<td class="g">G</td>
+						<td class="d">D</td>
+						<td class="h">H</td>
+					</tr>
 
-				<tr id="br1">
-					<td id="t1"></td>
-					<td>Break</td>
-					<td>Break</td>
-					<td>Break</td>
-					<td>Break</td>
-					<td>Break</td>
-					<td>Break</td>
-					<td>Break</td>
-					<td>Break</td>
-				</tr>
-
-
-				<tr id="b2">
-					<td id="t2"></td>
-					<td class="b">B</td>
-					<td class="f">F</td>
-					<td class="c">C</td>
-					<td class="g">G</td>
-					<td class="d">D</td>
-					<td class="h">H</td>
-					<td class="a">A</td>
-					<td class="e">E</td>
-				</tr>
-
-				<tr id="lunch">
-					<td id="t3"></td>
-					<td>Lunch</td>
-					<td>Lunch</td>
-					<td>Lunch</td>
-					<td>Lunch</td>
-					<td>Lunch</td>
-					<td>Lunch</td>
-					<td>Lunch</td>
-					<td>Lunch</td>
-				</tr>
+					<tr id="br1" data-block="break">
+						<td id="t1"></td>
+						<td>Break</td>
+						<td>Break</td>
+						<td>Break</td>
+						<td>Break</td>
+						<td>Break</td>
+						<td>Break</td>
+						<td>Break</td>
+						<td>Break</td>
+					</tr>
 
 
-				<tr id="advisory">
-					<td>11:55-12:35</td>
-					<td>Advisory</td>
-					<td>Advisory</td>
-					<td>Advisory</td>
-					<td>Advisory</td>
-					<td>Advisory</td>
-					<td>Advisory</td>
-					<td>Advisory</td>
-					<td>Advisory</td>
-				</tr>
+					<tr id="b2" data-block="class">
+						<td id="t2"></td>
+						<td class="b">B</td>
+						<td class="f">F</td>
+						<td class="c">C</td>
+						<td class="g">G</td>
+						<td class="d">D</td>
+						<td class="h">H</td>
+						<td class="a">A</td>
+						<td class="e">E</td>
+					</tr>
 
-				<tr id="b3">
-					<!-- <td></td> -->
-					<td id="t4"></td>
-					<td class="c">C</td>
-					<td class="g">G</td>
-					<td class="d">D</td>
-					<td class="h">H</td>
-					<td class="a">A</td>
-					<td class="e">E</td>
-					<td class="b">B</td>
-					<td class="f">F</td>
-				</tr>
-
-				<tr id="second-lunch">
-					<td id="t5"></td>
-					<td>2nd Lunch</td>
-					<td>2nd Lunch</td>
-					<td>2nd Lunch</td>
-					<td>2nd Lunch</td>
-					<td>2nd Lunch</td>
-					<td>2nd Lunch</td>
-					<td>2nd Lunch</td>
-					<td>2nd Lunch</td>
-				</tr>
+					<tr id="lunch" data-block="break">
+						<td id="t3"></td>
+						<td>Lunch</td>
+						<td>Lunch</td>
+						<td>Lunch</td>
+						<td>Lunch</td>
+						<td>Lunch</td>
+						<td>Lunch</td>
+						<td>Lunch</td>
+						<td>Lunch</td>
+					</tr>
 
 
-				<tr id="b4">
-					<td id="t6"></td>
-					<td class="d">D</td>
-					<td class="h">H</td>
-					<td class="a">A</td>
-					<td class="e">E</td>
-					<td class="b">B</td>
-					<td class="f">F</td>
-					<td class="c">C</td>
-					<td class="g">G</td>
-				</tr>
+					<tr id="advisory" data-block="break">
+						<td>11:55-12:35</td>
+						<td>Advisory</td>
+						<td>Advisory</td>
+						<td>Advisory</td>
+						<td>Advisory</td>
+						<td>Advisory</td>
+						<td>Advisory</td>
+						<td>Advisory</td>
+						<td>Advisory</td>
+					</tr>
+
+					<tr id="b3" data-block="class">
+						<!-- <td></td> -->
+						<td id="t4"></td>
+						<td class="c">C</td>
+						<td class="g">G</td>
+						<td class="d">D</td>
+						<td class="h">H</td>
+						<td class="a">A</td>
+						<td class="e">E</td>
+						<td class="b">B</td>
+						<td class="f">F</td>
+					</tr>
+
+					<tr id="second-lunch" data-block="break">
+						<td id="t5"></td>
+						<td>2nd Lunch</td>
+						<td>2nd Lunch</td>
+						<td>2nd Lunch</td>
+						<td>2nd Lunch</td>
+						<td>2nd Lunch</td>
+						<td>2nd Lunch</td>
+						<td>2nd Lunch</td>
+						<td>2nd Lunch</td>
+					</tr>
+
+
+					<tr id="b4" data-block="class">
+						<td id="t6"></td>
+						<td class="d">D</td>
+						<td class="h">H</td>
+						<td class="a">A</td>
+						<td class="e">E</td>
+						<td class="b">B</td>
+						<td class="f">F</td>
+						<td class="c">C</td>
+						<td class="g">G</td>
+					</tr>
+				</tbody>
 			</table>
 			<hr>
 		</div>
@@ -201,27 +220,33 @@
 			<p>Add Homework</p>
 
 			<form name="homework-list" id="homework-list">
-				<span class="a">A Block</span> Homework: <input type="text" id="a-block-hw-edit" value="None"><br>
-				<span class="b">B Block</span> Homework: <input type="text" id="b-block-hw-edit" value="None"><br>
-				<span class="c">C Block</span> Homework: <input type="text" id="c-block-hw-edit" value="None"><br>
-				<span class="d">D Block</span> Homework: <input type="text" id="d-block-hw-edit" value="None"><br>
-				<span class="e">E Block</span> Homework: <input type="text" id="e-block-hw-edit" value="None"><br>
-				<span class="f">F Block</span> Homework: <input type="text" id="f-block-hw-edit" value="None"><br>
-				<span class="g">G Block</span> Homework: <input type="text" id="g-block-hw-edit" value="None"><br>
-				<span class="h">H Block</span> Homework: <input type="text" id="h-block-hw-edit" value="None"><br>
+				<span class="a-block">A Block</span> Homework: <input type="text" id="a-block-hw-edit" value="None"><br>
+				<span class="b-block">B Block</span> Homework: <input type="text" id="b-block-hw-edit" value="None"><br>
+				<span class="c-block">C Block</span> Homework: <input type="text" id="c-block-hw-edit" value="None"><br>
+				<span class="d-block">D Block</span> Homework: <input type="text" id="d-block-hw-edit" value="None"><br>
+				<span class="e-block">E Block</span> Homework: <input type="text" id="e-block-hw-edit" value="None"><br>
+				<span class="f-block">F Block</span> Homework: <input type="text" id="f-block-hw-edit" value="None"><br>
+				<span class="g-block">G Block</span> Homework: <input type="text" id="g-block-hw-edit" value="None"><br>
+				<span class="h-block">H Block</span> Homework: <input type="text" id="h-block-hw-edit" value="None"><br>
 			</form>
 			<br><hr>
 
 			<p>Current HW</p>
+
+			<p>Today is <span id="date"></span>
+		</div>
+
+		<div id="current-homework-menu">
+			<h2><u>Current Homework</u></h2>
 			<form name="current-homework" id="current-homework">
-				<span class="a">A Block</span> Homework: <span id="a-block-hw"></span><br>
-				<span class="b">B Block</span> Homework: <span id="b-block-hw"></span><br>
-				<span class="c">C Block</span> Homework: <span id="c-block-hw"></span><br>
-				<span class="d">D Block</span> Homework: <span id="d-block-hw"></span><br>
-				<span class="e">E Block</span> Homework: <span id="e-block-hw"></span><br>
-				<span class="f">F Block</span> Homework: <span id="f-block-hw"></span><br>
-				<span class="g">G Block</span> Homework: <span id="g-block-hw"></span><br>
-				<span class="h">H Block</span> Homework: <span id="h-block-hw"></span><br>
+				<span class="a-block">A Block</span><span> Homework: </span><span id="a-block-hw"></span><br><span id="a-block-due"></span><br> 
+				<span class="b-block">B Block</span><span> Homework: </span><span id="b-block-hw"></span><br><span id="b-block-due"></span><br>
+				<span class="c-block">C Block</span><span> Homework: </span><span id="c-block-hw"></span><br><span id="c-block-due"></span><br>
+				<span class="d-block">D Block</span><span> Homework: </span><span id="d-block-hw"></span><br><span id="d-block-due"></span><br>
+				<span class="e-block">E Block</span><span> Homework: </span><span id="e-block-hw"></span><br><span id="e-block-due"></span><br>
+				<span class="f-block">F Block</span><span> Homework: </span><span id="f-block-hw"></span><br><span id="f-block-due"></span><br>
+				<span class="g-block">G Block</span><span> Homework: </span><span id="g-block-hw"></span><br><span id="g-block-due"></span><br>
+				<span class="h-block">H Block</span><span> Homework: </span><span id="h-block-hw"></span><br><span id="h-block-due"></span><br>
 			</form>
 		</div>
 
