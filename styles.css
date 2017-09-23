@@ -1,6 +1,21 @@
+
+
 body {
 	background-color: #EEEEEE;
 	text-align: center;
+	font-family: 'Roboto', sans-serif;
+}
+
+button, form, select {
+	font-family: 'Roboto', sans-serif;
+}
+
+h1, p {
+	color: black;
+}
+
+button, select {
+	background-color: auto;
 }
 
 table {
@@ -16,11 +31,12 @@ td, th {
 	background-color: white;
 }
 
-#first-cell {
+.split-cell {
 	border: none!important;
 	background-color: transparent;
 }
 
-#weekday-selector:first-child, #advisory, #edit-menu {
+
+#weekday-selector:first-child, #advisory, #edit-menu, #experimental-features {
 	display: none;
 }

@@ -6,15 +6,20 @@
 	<meta charset="UTF-8">
 	<meta name="author" content="Zack Amiton"> <!-- Ohhh...THIS is why citation programs can fail. -->
 	<meta name="description" content="Google me tbh">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<!--Nothing wrong with this, but on low internet (which I'm on now, this drastically slows things down. Only turn it on once on a more stable connection.)  -->
 	<noscript>This site requires JS...you nerd. What kind of human being doesn't enable JS on their browsers?</noscript>
 </head>
 <body>
 	<main>
-		<h1>ASB Scheduler</h1>
+		<h1 id="title">ASB Scheduler</h1>
 		<p id="intro">I'm gonna be real with you: I'm sick of everybody asking me what classes we have first. So, I'm building a little schedule app for you to check. Hoorah!</p>
 
 		<button id="change-name">Change Name</button>
-		<button id="selector">Change Schedule</button><br>
+		<button id="selector">Change Schedule</button>
+		<button id="theme-switcher">Dark Theme</button>
+		<button id="switch-grade">Switch Grade (MS)</button><br>
+		<button id="experimental-settings">Show Experimental Menu</button>
 		<select id="weekday-selector" name="weekday-selector">
 			<option value="1">Monday</option>
 			<option value="2">Tuesday</option>
@@ -37,29 +42,34 @@
 			</form>
 		</div>
 
+		<div id="experimental-features">
+			<button id="rotate-times">Rotate Times</button><br>
+		</div>
+
 		<div id="schedule-div">
 			<p id="schedule-title">Schedule</p>
 
 			<table id="schedule">	
 				<colgroup>
 					<col id="class-times" width="125">
-					<col id="day-1" style="background-color: lightgreen;" width="85">
-					<col id="day-2" style="background-color: lightblue;" width="85">
-					<col id="day-3" style="background-color: lightgreen;" width="85">
-					<col id="day-4" style="background-color: lightblue;" width="85">
-					<col id="day-5" style="background-color: lightgreen;" width="85">
-					<col id="day-6" style="background-color: lightblue;" width="85">
-					<col id="day-7" style="background-color: lightgreen;" width="85">
-					<col id="day-8" style="background-color: lightblue;" width="85">
+					<col id="day-1" width="85">
+					<col id="day-2" width="85">
+					<col id="day-3" width="85">
+					<col id="day-4" width="85">
+					<col id="day-5" width="85">
+					<col id="day-6" width="85">
+					<col id="day-7" width="85">
+					<col id="day-8" width="85">
 				</colgroup>
 				
 				<tr>
-					<th id="first-cell">&nbsp;</th>
+					<th class="split-cell" rowspan="2">&nbsp;</th>
+					<th class="split-cell"></th>
 					<th style="background-color: white;" colspan="8">Day</th>
 				</tr>
 
 				<tr>
-					<th>&nbsp;</th>
+					<th class="split-cell" >&nbsp;</th>
 					<th>1</th>
 					<th>2</th>
 					<th>3</th>
@@ -71,6 +81,7 @@
 				</tr>
 
 				<tr id="b1">
+					<td rowspan="10"><p id="times-column">Times</p></td>
 					<td id="t0"></td>
 					<td class="a">A</td>
 					<td class="e">E</td>
