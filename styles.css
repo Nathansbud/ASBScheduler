@@ -10,7 +10,7 @@ button, form, select {
 	font-family: 'Roboto', sans-serif;
 }
 
-h1, p {
+h1, h2, p {
 	color: black;
 }
 
@@ -37,6 +37,6 @@ td, th {
 }
 
 
-#weekday-selector:first-child, #advisory, #edit-menu, #experimental-features {
+#weekday-selector:first-child, #advisory, #edit-menu, #experimental-features, #homework-edit-menu {
 	display: none;
 }

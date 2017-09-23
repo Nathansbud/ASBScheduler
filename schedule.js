@@ -5,20 +5,28 @@ var advisoryRow = document.getElementById('advisory');
 var changeName = document.getElementById('change-name');
 var intro = document.getElementById('intro');
 var editMenu = document.getElementById('edit-menu');
+var homeworkEditMenu = document.getElementById('homework-edit-menu');
 var title = document.getElementById('title');
 var themeSwitcher = document.getElementById('theme-switcher');
 var showExperimentalMenu = document.getElementById('experimental-settings');
 var experimentalMenu = document.getElementById('experimental-features');
 var rotateTimes = document.getElementById('rotate-times');
-var timesColumn = document.getElementById('times-column')
+var timesColumn = document.getElementById('times-column');
+var showSchedule = document.getElementById('show-schedule');
+var scheduleMenu = document.getElementById('schedule-div');
+var homeworkSelector = document.getElementById('show-homework');
+var homeworkReset = document.getElementById('clear-homework');
 
 var name;
 var editMenuShowing = false;
+var homeworkEditMenuShowing = false;
+var scheduleShowing = true;
 var experimentalMenuShowing = false;
 var displayTheme = false; //False, True
 var timesRotated = false;
 
 var classValues = document.getElementById('class-list');
+var homeworkValues = document.getElementById('homework-list')
 
 
 var normalTimes = ["8:30-9:55", "9:55-10:05", "10:05-11:30", "11:30-12:10", "12:10-1:35", "1:35-2:05", "2:05-3:30"]
@@ -31,6 +39,7 @@ var weekdays = ["Monday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
 var blockLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 var lowerCaseLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 var classes = ["","","","","","","",""];
+var hw = ['','','','','','','',''];
 
 var currentDay = new Date().getDay();
 
@@ -57,6 +66,7 @@ function switchTheme() {
 		}
 
 		title.style.color = "white";
+		intro.style.color = "white";
 		themeSwitcher.innerHTML = "Light Theme"
 		displayTheme = !displayTheme;
 
@@ -71,6 +81,7 @@ function switchTheme() {
 		}
 
 		title.style.color = "black";
+		intro.style.color = "black";
 		themeSwitcher.innerHTML = "Dark Theme"
 		displayTheme = !displayTheme;
 	}
@@ -141,6 +152,29 @@ function setClasses() {
 	}
 }
 
+function setHomework() {
+	if(!localStorage.getItem("homework")) {
+			/*Leaving commented for the time being—it's annoying as fuck.*/
+
+			// for(let i = 0; i < blockLetters.length; i++) {
+			// 	classes[i] = prompt("What class do you have for your " + blockLetters[i] + " block?");
+			// }  
+
+			localStorage.setItem("homework", JSON.stringify(hw));
+			setHomework();
+		} else { 
+			parsedHomework = JSON.parse(localStorage.getItem("homework"));
+			for(let i = 0; i < parsedHomework.length; i++) {
+				hw[i] = parsedHomework[i];
+			}
+
+			for(let k = 0; k < classes.length; k++) {
+				document.getElementById(lowerCaseLetters[k]+"-block-hw-edit").value = hw[k];
+				document.getElementById(lowerCaseLetters[k]+"-block-hw").innerHTML = hw[k];
+			}
+	}
+}
+
 function resetName() {
 	input = prompt("What would you like your name to be?");
 	
@@ -154,6 +188,7 @@ function resetName() {
 function setSchedule() {
 	setDay();
 	setClasses();
+	setHomework();
 	setName();
 }
 
@@ -186,6 +221,17 @@ classValues.onchange = function() {
 	setClasses();
 }	
 
+homeworkValues.onchange = function() {
+	for(let i = 0; i < hw.length; i++) {
+		hw[i] = homeworkValues.children[3*i+1].value;
+	}
+	localStorage.setItem('homework', JSON.stringify(hw));
+	setHomework();
+}
+
+
+scheduleMenu.onclic
+
 showExperimentalMenu.onclick = function() {	
 	!experimentalMenuShowing ? experimentalMenu.style.display = "block" : experimentalMenu.style.display = "none";
 	experimentalMenuShowing = !experimentalMenuShowing;
@@ -196,15 +242,21 @@ rotateTimes.onclick = function () {
 	timesRotated = !timesRotated
 }
 
-// switchGrade.onclick = function() {
-// 	if(!editMenuShowing) {
-// 		editMenu.style.display = "block";
-// 		editMenuShowing = !editMenuShowing;
-// 	} else {
-// 		editMenu.style.display = "none";
-// 		editMenuShowing = !editMenuShowing;
-// 	}
-// }
+showSchedule.onclick = function() {
+	scheduleShowing ? scheduleMenu.style.display = "none" : scheduleMenu.style.display = "block";
+	scheduleShowing = !scheduleShowing;
+}
+
+homeworkSelector.onclick = function () {
+	!homeworkEditMenuShowing ? homeworkEditMenu.style.display = "block" : homeworkEditMenu.style.display = "none"
+	homeworkEditMenuShowing = !homeworkEditMenuShowing
+}
+
+
+homeworkReset.onclick = function () {
+	localStorage.setItem('homework');
+	setHomework();
+}
 
 
 window.onload = function() {

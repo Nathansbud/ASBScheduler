@@ -13,14 +13,24 @@
 <body>
 	<main>
 		<h1 id="title">ASB Scheduler</h1>
-		<p id="intro">I'm gonna be real with you: I'm sick of everybody asking me what classes we have first. So, I'm building a little schedule app for you to check. Hoorah!</p>
+		<h2 id="intro">I'm gonna be real with you: I'm sick of everybody asking me what classes we have first. So, I'm building a little schedule app for you to check. Hoorah!</h2>
+
+		<hr>
+
+		<p>Settings Menu</p>
 
 		<button id="change-name">Change Name</button>
 		<button id="selector">Change Schedule</button>
 		<button id="theme-switcher">Dark Theme</button>
-		<button id="switch-grade">Switch Grade (MS)</button><br>
+		<button id="switch-grade">Switch Grade (MS)</button>
 		<button id="experimental-settings">Show Experimental Menu</button>
-		<select id="weekday-selector" name="weekday-selector">
+		<button id="show-schedule">Hide Schedule</button>
+		<button id="show-homework">Show Homework</button>
+		<button id="clear-homework">Clear Homework</button><br>
+		
+		<hr>
+
+		<span>Showing: </span><select id="weekday-selector" name="weekday-selector">
 			<option value="1">Monday</option>
 			<option value="2">Tuesday</option>
 			<option value="3">Wednesday</option>
@@ -39,11 +49,14 @@
 				<span>F Block: </span><input type="text" id="f-block" value="F Block"><br>
 				<span>G Block: </span><input type="text" id="g-block" value="G Block"><br>
 				<span>H Block: </span><input type="text" id="h-block" value="H Block"><br>
+				<hr>
 			</form>
 		</div>
 
 		<div id="experimental-features">
+
 			<button id="rotate-times">Rotate Times</button><br>
+			<hr>
 		</div>
 
 		<div id="schedule-div">
@@ -181,7 +194,38 @@
 					<td class="g">G</td>
 				</tr>
 			</table>
+			<hr>
 		</div>
+		 
+		<div id="homework-edit-menu">
+			<p>Add Homework</p>
+
+			<form name="homework-list" id="homework-list">
+				<span class="a">A Block</span> Homework: <input type="text" id="a-block-hw-edit" value="None"><br>
+				<span class="b">B Block</span> Homework: <input type="text" id="b-block-hw-edit" value="None"><br>
+				<span class="c">C Block</span> Homework: <input type="text" id="c-block-hw-edit" value="None"><br>
+				<span class="d">D Block</span> Homework: <input type="text" id="d-block-hw-edit" value="None"><br>
+				<span class="e">E Block</span> Homework: <input type="text" id="e-block-hw-edit" value="None"><br>
+				<span class="f">F Block</span> Homework: <input type="text" id="f-block-hw-edit" value="None"><br>
+				<span class="g">G Block</span> Homework: <input type="text" id="g-block-hw-edit" value="None"><br>
+				<span class="h">H Block</span> Homework: <input type="text" id="h-block-hw-edit" value="None"><br>
+			</form>
+			<br><hr>
+
+			<p>Current HW</p>
+			<form name="current-homework" id="current-homework">
+				<span class="a">A Block</span> Homework: <span id="a-block-hw"></span><br>
+				<span class="b">B Block</span> Homework: <span id="b-block-hw"></span><br>
+				<span class="c">C Block</span> Homework: <span id="c-block-hw"></span><br>
+				<span class="d">D Block</span> Homework: <span id="d-block-hw"></span><br>
+				<span class="e">E Block</span> Homework: <span id="e-block-hw"></span><br>
+				<span class="f">F Block</span> Homework: <span id="f-block-hw"></span><br>
+				<span class="g">G Block</span> Homework: <span id="g-block-hw"></span><br>
+				<span class="h">H Block</span> Homework: <span id="h-block-hw"></span><br>
+			</form>
+		</div>
+
+
 	</main>
 
 	<script src="schedule.js"></script>
