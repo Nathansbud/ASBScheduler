@@ -50,8 +50,6 @@ var normalTimes = ["8:30-9:55", "9:55-10:05", "10:05-11:30", "11:30-12:10", "12:
 var advisoryTimes = ["8:30-9:50", "9:50-10:00", "10:00-11:20", "11:20-11:55", "12:40-1:55", "1:55-2:15", "2:15-3:30"]
 // var msTimes = ["8:30-9:50", "9:50-10:05", "10:05-11:20", "11:20-11:35", "11:35-12:05", "12:05-12:40", "12:40-2:00", "2:00-2:10", "2:10-3:30"]
 
-var blockColors = ["Teal", "Pink", "Red", "Orange", "Yellow", "Blue", "White", "Indigo"];
-
 
 var weekdays = ["Monday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Monday"]; //Monday 3 times, because if you're generating it on a Sat/Sun, you'd likely want Monday.
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -60,9 +58,6 @@ var blockLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 var lowerCaseLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
 var defaultValues = ["","","","","","","",""];
-
-var classes = ["","","","","","","",""];
-var hw = ['','','','','','','',''];
 
 var currentDay = new Date().getDay();
 
@@ -80,7 +75,6 @@ class Schedule {
 
 		this.settings = [];
 
-
 		//Needs Fleshing Out
 		this.currentTheme = 0 //Light, Dark, ???
 		this.themeNames = ['Dark', 'Light'];
@@ -91,8 +85,8 @@ class Schedule {
 	setName() {
 		if(!localStorage.getItem("name")) {
 			resetName();
-			localStorage.setItem("name", name);
-			setName();
+			localStorage.setItem("name", this.name);
+			this.setName();
 		} else {
 			this.name = localStorage.getItem('name');
 
@@ -111,6 +105,34 @@ class Schedule {
 			}
 
 			intro.innerHTML = "Hey, " + this.name + "!";
+		}
+	}
+
+
+	setClasses() {
+		if(!localStorage.getItem("classes")) {
+			localStorage.setItem("classes", JSON.stringify(this.classes));
+		} else { 
+			let parsedClasses = JSON.parse(localStorage.getItem("classes"));
+			for(let i = 0; i < parsedClasses.length; i++) {
+				this.classes[i] = parsedClasses[i];
+			}
+
+			for(let j = 0; j < lowerCaseLetters.length; j++) {
+				for(let k = 0; k < document.getElementsByClassName(lowerCaseLetters[j]).length; k++) {
+					document.getElementsByClassName(lowerCaseLetters[j])[k].innerHTML = this.classes[j];
+				}
+			}
+
+			for(let k = 0; k < this.classes.length; k++) {
+				document.getElementById(lowerCaseLetters[k]+"-block").value = this.classes[k];
+			}
+
+			for(let l = 0; l < this.classes.length; l++) {
+				for(let m = 0; m < document.getElementsByClassName(lowerCaseLetters[l]+'-block').length; m++) { 
+					document.getElementsByClassName(lowerCaseLetters[l]+"-block")[m].textContent = this.classes[l];
+				}
+			}
 		}
 	}
 
@@ -165,7 +187,7 @@ class Schedule {
 
 	setHomework() {
 		if(!localStorage.getItem("homework")) {
-				localStorage.setItem("homework", JSON.stringify(hw));
+				localStorage.setItem("homework", JSON.stringify(this.hw));
 				this.setHomework();
 			} else { 
 				var parsedHomework = JSON.parse(localStorage.getItem("homework"));
@@ -179,83 +201,53 @@ class Schedule {
 			}
 		}
 	}
+
+	setColors() {
+		if(!localStorage.getItem('colors')) {
+			localStorage.setItem('colors', JSON.stringify(this.blockColors));
+			this.setColors();
+		} else {
+			var parsedBlockColors = JSON.parse(localStorage.getItem('colors'));
+
+			if(enableBlockColors) {
+				for(let i = 0; i < this.classes.length; i++) {
+					document.getElementById(lowerCaseLetters[i]+'-color').value = parsedBlockColors[i];
+
+					for(let j = 0; j < document.getElementsByClassName(lowerCaseLetters[i]).length; j++) {
+						document.getElementsByClassName(lowerCaseLetters[i])[j].style.backgroundColor = parsedBlockColors[i];
+					}
+				} 
+			} else {
+				for(let i = 0; i < this.classes.length; i++) {
+					for(let j = 0; j < document.getElementsByClassName(lowerCaseLetters[i]).length; j++) {
+						document.getElementsByClassName(lowerCaseLetters[i])[j].style.backgroundColor = "white";
+					}
+				} 
+			}
+		}
+	}
+
+	setSchedule() {
+		this.setDay();
+		this.setClasses();
+		this.setHomework();
+		this.setName();
+		this.setColors();
+	}
 }
 
 var MySchedule = new Schedule();
 
-function setClasses() {
-	if(!localStorage.getItem("classes")) {
-		localStorage.setItem("classes", JSON.stringify(classes));
-
-		setClasses();
-	} else { 
-		parsedClasses = JSON.parse(localStorage.getItem("classes"));
-		for(let i = 0; i < parsedClasses.length; i++) {
-			classes[i] = parsedClasses[i];
-		}
-
-		for(let j = 0; j < lowerCaseLetters.length; j++) {
-			for(let k = 0; k < document.getElementsByClassName(lowerCaseLetters[j]).length; k++) {
-				document.getElementsByClassName(lowerCaseLetters[j])[k].innerHTML = classes[j];
-			}
-		}
-
-		for(let k = 0; k < classes.length; k++) {
-			document.getElementById(lowerCaseLetters[k]+"-block").value = classes[k];
-		}
-
-		for(let l = 0; l < classes.length; l++) {
-			for(let m = 0; m < document.getElementsByClassName(lowerCaseLetters[l]+'-block').length; m++) { 
-				document.getElementsByClassName(lowerCaseLetters[l]+"-block")[m].textContent = classes[l];
-			}
-		}
-	}
-}
 
 
-function resetName() {
-	input = prompt("What would you like your name to be?");
+function resetName() { //This should be moved inside Schedule class...everything broke. So it's out here! Fix later.
+	var input = prompt("What would you like your name to be?");
 	
 	if(input != null && input != "") {
-		name = input;
-		localStorage.setItem("name",name);
+		MySchedule.name = input;
+		localStorage.setItem("name", MySchedule.name);
 		MySchedule.setName();
 	}  
-}
-
-function setColors() {
-	if(!localStorage.getItem('colors')) {
-		localStorage.setItem('colors', JSON.stringify(blockColors));
-		setColors();
-	} else {
-		var parsedBlockColors = JSON.parse(localStorage.getItem('colors'));
-
-		if(enableBlockColors) {
-			for(let i = 0; i < classes.length; i++) {
-				document.getElementById(lowerCaseLetters[i]+'-color').value = parsedBlockColors[i];
-
-				for(let j = 0; j < document.getElementsByClassName(lowerCaseLetters[i]).length; j++) {
-					document.getElementsByClassName(lowerCaseLetters[i])[j].style.backgroundColor = parsedBlockColors[i];
-				}
-			} 
-		} else {
-			for(let i = 0; i < classes.length; i++) {
-				for(let j = 0; j < document.getElementsByClassName(lowerCaseLetters[i]).length; j++) {
-					document.getElementsByClassName(lowerCaseLetters[i])[j].style.backgroundColor = "white";
-				}
-			} 
-		}
-	}
-}
-
-function setSchedule() {
-	MySchedule.setDay();
-	setClasses();
-	MySchedule.setHomework();
-	MySchedule.setName();
-
-	setColors();
-
 }
 
 changeName.addEventListener('click', resetName);
@@ -277,21 +269,21 @@ themeSwitcher.addEventListener('click', function(){
 });
 
 classValues.addEventListener('change', function() {
-	for(let i = 0; i < classes.length; i++) {
-		classes[i] = classValues.children[3*i + 1].value;
+	for(let i = 0; i < MySchedule.classes.length; i++) {
+		MySchedule.classes[i] = classValues.children[3*i + 1].value;
 	}
 
-	localStorage.setItem('classes', JSON.stringify(classes));
-	setClasses();
+	localStorage.setItem('classes', JSON.stringify(MySchedule.classes));
+	MySchedule.setClasses();
 });
 
 colorEditor.addEventListener('change', function(){
 	for(let i = 0; i < classes.length; i++) {
-		blockColors[i] = colorEditor.children[3*i + 1].value;
+		MySchedule.blockColors[i] = colorEditor.children[3*i + 1].value;
 	}
 
-	localStorage.setItem('colors', JSON.stringify(blockColors));
-	setColors();
+	localStorage.setItem('colors', JSON.stringify(MySchedule.blockColors));
+	MySchedule.setColors();
 });
 
 homeworkValues.addEventListener('change', function() {
@@ -349,37 +341,37 @@ homeworkSelector.addEventListener('click', function () {
 });
 
 cacheReset.onclick = function() {
-	classes = defaultValues;
-	hw = defaultValues;
+	MySchedule.classes = defaultValues;
+	MySchedule.hw = defaultValues;
 
-	localStorage.removeItem('homework');
-	localStorage.removeItem('classes');
+	localStorage.setItem('homework', JSON.stringify(defaultValues));
+	localStorage.setItem('classes', JSON.stringify(defaultValues));
 	localStorage.removeItem('name');
 
-	setSchedule();
+	MySchedule.setSchedule();
 }
 
 enableColors.onclick = function() {
 	if(!enableBlockColors) {
 		enableBlockColors = true;
 		localStorage.setItem('colorsEnabled', enableBlockColors)
-		setColors();
+		MySchedule.setColors();
 		enableColors.textContent = "Disable Block Colors"
 	} else {
 		enableBlockColors = false;
 		localStorage.setItem('colorsEnabled', enableBlockColors)
-		setColors();
+		MySchedule.setColors();
 		enableColors.textContent = "Enable Block Colors"
 	}
 }
 
 
 window.onload = function() {
-
 	weekdaySelector.value = currentDay;
 
 	document.getElementById('date').innerHTML = weekdays[new Date().getDay()] + ", " + months[new Date().getMonth()] + " " + new Date().getDate();
-	setSchedule();	
+	MySchedule.setSchedule();
+
 }
 
 
