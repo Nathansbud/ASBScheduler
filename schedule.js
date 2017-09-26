@@ -1,3 +1,13 @@
+/* Major Todo List 
+	#1: Restructure Scheduling
+	#2: Create "Schedule" Class
+	#3: Restructure Event Handling
+	#4: Clean Up Functions/Code
+	#5: Fix Cacheing
+*/
+
+
+
 var scheduleTitle = document.getElementById('schedule-title');
 var daySelector = document.getElementById('selector');
 var weekdaySelector = document.getElementById('weekday-selector');
@@ -56,103 +66,125 @@ var hw = ['','','','','','','',''];
 
 var currentDay = new Date().getDay();
 
-function isNormalDay() {
-	if(currentDay != 2 && currentDay != 3) {
-		return true;
-	} else {
-		advisoryRow.style.display = "table-row";
-		return false;
-	}
-} 
+class Schedule {
+	constructor() {
+		this.name = name;
+		this.classes = ["","","","","","","",""];
+		this.hw = ['','','','','','','',''];
+		this.blockColors = ["Teal", "Pink", "Red", "Orange", "Yellow", "Blue", "White", "Indigo"];
+		this.currentDay = new Date().getDay();
+		if(this.currentDay == 0 || this.currentDay == 6) {
+			this.currentDay = 1;
+		}
 
-function switchTheme() {
-	if(!displayTheme) {
-		document.body.style.backgroundColor = "black";
+
+		this.settings = [];
+
+
+		//Needs Fleshing Out
+		this.currentTheme = 0 //Light, Dark, ???
+		this.themeNames = ['Dark', 'Light'];
+		this.themes = ['Black', '#EEEEEE']; //Light, Dark
+		this.themesContrast = ['White', 'Black'];
+	}
+
+	setName() {
+		if(!localStorage.getItem("name")) {
+			resetName();
+			localStorage.setItem("name", name);
+			setName();
+		} else {
+			this.name = localStorage.getItem('name');
+
+			if(this.name[this.name.length - 1] != 's') {	
+				if(this.isNormalDay()) {
+					scheduleTitle.innerHTML = this.name + "'s Schedule (" + weekdays[this.currentDay] + ")"
+				} else {
+					scheduleTitle.innerHTML = this.name + "'s Schedule (" + weekdays[this.currentDay] + ", Advisory)"
+				}
+			} else {
+				if(MySchedule.isNormalDay()) {
+					scheduleTitle.innerHTML = this.name + "' Schedule (" + weekdays[this.currentDay] + ")"
+				} else {
+					scheduleTitle.innerHTML = this.name + "' Schedule (" + weekdays[this.currentDay] + ", Advisory)"
+				}
+			}
+
+			intro.innerHTML = "Hey, " + this.name + "!";
+		}
+	}
+
+	setDay() {
+		for(let i = 0; i < normalTimes.length; i++) {
+			this.isNormalDay() ? 
+				document.getElementById("t"+i).innerHTML = normalTimes[i] :
+				document.getElementById("t"+i).innerHTML = advisoryTimes[i]; 
+		}
+
+		this.isNormalDay() ? advisoryRow.style.display = "none" : advisoryRow.style.display = "table-row";
+	}
+
+	isNormalDay() {
+		if(this.currentDay != 2 && this.currentDay != 3) {
+			return true;
+		} else {
+			advisoryRow.style.display = "table-row"; //Todo: Integrate this into a different function. This is messy.
+			return false 
+		}
+	}
+
+	switchTheme() {
+		document.body.style.backgroundColor = this.themes[this.currentTheme];
+
 		for(let i = 0; i < document.getElementsByTagName('p').length; i++) {
 			if(document.getElementsByTagName('p')[i].id != "times-column") {
-				document.getElementsByTagName('p')[i].style.color = "white";
+				document.getElementsByTagName('p')[i].style.color = this.themesContrast[this.currentTheme];
 			}
 		}
 
 		for(let j = 0; j < document.getElementsByTagName('span').length; j++) {
-			document.getElementsByTagName('span')[j].style.color = "white";
+			document.getElementsByTagName('span')[j].style.color = this.themesContrast[this.currentTheme];
 		}
 
 		for(let k = 0; k < document.getElementsByTagName('h2').length; k++) {
-			document.getElementsByTagName('h2')[k].style.color = "white";
-		}
-
-		title.style.color = "white";
-		intro.style.color = "white";
-		themeSwitcher.innerHTML = "Light Theme"
-		displayTheme = !displayTheme;
-
-	} else {
-		document.body.style.backgroundColor = "#EEEEEE";
-		for(let i = 0; i < document.getElementsByTagName('p').length; i++) {
-			document.getElementsByTagName('p')[i].style.color = "black";
-		}
-
-		for(let j = 0; j < document.getElementsByTagName('span').length; j++) {
-			document.getElementsByTagName('span')[j].style.color = "black";
-		}
-
-		for(let k = 0; k < document.getElementsByTagName('h2').length; k++) {
-			document.getElementsByTagName('h2')[k].style.color = "black";
+			document.getElementsByTagName('h2')[k].style.color = this.themesContrast[this.currentTheme];
 		}
 
 
-		title.style.color = "black";
-		intro.style.color = "black";
-		themeSwitcher.innerHTML = "Dark Theme"
-		displayTheme = !displayTheme;
-	}
-}
 
-
-function setName() {
-	if(!localStorage.getItem("name")) {
-		resetName();
-		localStorage.setItem("name", name);
-		setName();
-	} else {
-		name = localStorage.getItem('name');
-
-		if(name[name.length - 1] != 's') {	
-			if(isNormalDay()) {
-				scheduleTitle.innerHTML = name + "'s Schedule (" + weekdays[currentDay] + ")"
-			} else {
-				scheduleTitle.innerHTML = name + "'s Schedule (" + weekdays[currentDay] + ", Advisory)"
-			}
+		this.themesContrast[this.currentTheme];
+		this.themesContrast[this.currentTheme];
+		if(this.currentTheme == this.themes.length - 1) {
+			this.currentTheme = 0;
 		} else {
-			if(isNormalDay()) {
-				scheduleTitle.innerHTML = name + "' Schedule (" + weekdays[currentDay] + ")"
-			} else {
-				scheduleTitle.innerHTML = name + "' Schedule (" + weekdays[currentDay] + ", Advisory)"
-			}
+			this.currentTheme++;
 		}
 
-		intro.innerHTML = "Hey, " + name + "!";
+		themeSwitcher.innerHTML = this.themeNames[this.currentTheme] + " Theme";
+	}
+
+	setHomework() {
+		if(!localStorage.getItem("homework")) {
+				localStorage.setItem("homework", JSON.stringify(hw));
+				this.setHomework();
+			} else { 
+				var parsedHomework = JSON.parse(localStorage.getItem("homework"));
+				for(let i = 0; i < parsedHomework.length; i++) {
+					this.hw[i] = parsedHomework[i];
+				}
+
+				for(let k = 0; k < this.classes.length; k++) {
+					document.getElementById(lowerCaseLetters[k]+"-block-hw-edit").value = this.hw[k];
+					document.getElementById(lowerCaseLetters[k]+"-block-hw").innerHTML = this.hw[k];
+			}
+		}
 	}
 }
 
-function setDay() {
-	for(let i = 0; i < normalTimes.length; i++) {
-		isNormalDay() ? 
-			document.getElementById("t"+i).innerHTML = normalTimes[i] :
-			document.getElementById("t"+i).innerHTML = advisoryTimes[i]; 
-	}
-
-	isNormalDay() ? advisoryRow.style.display = "none" : advisoryRow.style.display = "table-row";
-}
+var MySchedule = new Schedule();
 
 function setClasses() {
 	if(!localStorage.getItem("classes")) {
-		/*Leaving commented for the time being—it's annoying as fuck.*/
-
-		// for(let i = 0; i < blockLetters.length; i++) {
-		// 	classes[i] = prompt("What class do you have for your " + blockLetters[i] + " block?");
-		// }  
 		localStorage.setItem("classes", JSON.stringify(classes));
 
 		setClasses();
@@ -180,23 +212,6 @@ function setClasses() {
 	}
 }
 
-function setHomework() {
-	if(!localStorage.getItem("homework")) {
-
-			localStorage.setItem("homework", JSON.stringify(hw));
-			setHomework();
-		} else { 
-			parsedHomework = JSON.parse(localStorage.getItem("homework"));
-			for(let i = 0; i < parsedHomework.length; i++) {
-				hw[i] = parsedHomework[i];
-			}
-
-			for(let k = 0; k < classes.length; k++) {
-				document.getElementById(lowerCaseLetters[k]+"-block-hw-edit").value = hw[k];
-				document.getElementById(lowerCaseLetters[k]+"-block-hw").innerHTML = hw[k];
-			}
-	}
-}
 
 function resetName() {
 	input = prompt("What would you like your name to be?");
@@ -204,7 +219,7 @@ function resetName() {
 	if(input != null && input != "") {
 		name = input;
 		localStorage.setItem("name",name);
-		setName();
+		MySchedule.setName();
 	}  
 }
 
@@ -234,10 +249,10 @@ function setColors() {
 }
 
 function setSchedule() {
-	setDay();
+	MySchedule.setDay();
 	setClasses();
-	setHomework();
-	setName();
+	MySchedule.setHomework();
+	MySchedule.setName();
 
 	setColors();
 
@@ -245,50 +260,50 @@ function setSchedule() {
 
 changeName.addEventListener('click', resetName);
 
-daySelector.addEventListener('click', function() {
+daySelector.addEventListener('click', function(){
 	!editMenuShowing ? (editMenu.style.display = "block", daySelector.textContent = "Hide Classes"):
 					   (editMenu.style.display = "none", daySelector.textContent = "Edit Schedule");
 	editMenuShowing = !editMenuShowing
 })
 
-weekdaySelector.onchange = function(){
-	currentDay = weekdaySelector.value;
-	setDay();
-	setName();
-}
+weekdaySelector.addEventListener('change', function(){
+	MySchedule.currentDay = weekdaySelector.value;
+	MySchedule.setDay();
+	MySchedule.setName();
+});
 
-themeSwitcher.onclick = function() {
-	switchTheme();
-	localStorage.setItem('displayTheme', displayTheme);
-}
+themeSwitcher.addEventListener('click', function(){
+	MySchedule.switchTheme();
+});
 
-classValues.onchange = function() {
+classValues.addEventListener('change', function() {
 	for(let i = 0; i < classes.length; i++) {
 		classes[i] = classValues.children[3*i + 1].value;
 	}
 
 	localStorage.setItem('classes', JSON.stringify(classes));
 	setClasses();
-}	
+});
 
-colorEditor.onchange = function() {
+colorEditor.addEventListener('change', function(){
 	for(let i = 0; i < classes.length; i++) {
 		blockColors[i] = colorEditor.children[3*i + 1].value;
 	}
 
 	localStorage.setItem('colors', JSON.stringify(blockColors));
 	setColors();
-}
+});
 
-homeworkValues.onchange = function() {
-	for(let i = 0; i < hw.length; i++) {
-		hw[i] = homeworkValues.children[3*i+1].value;
+homeworkValues.addEventListener('change', function() {
+	for(let i = 0; i < MySchedule.hw.length; i++) {
+		MySchedule.hw[i] = homeworkValues.children[3*i+1].value;
 	}
-	localStorage.setItem('homework', JSON.stringify(hw));
-	setHomework();
-}
 
-showColorMenu.onclick = function() {
+	localStorage.setItem('homework', JSON.stringify(MySchedule.hw));
+	MySchedule.setHomework();
+});
+
+showColorMenu.addEventListener('click',function() {
 	!colorMenuShowing ? (
 		colorMenu.style.display = "block", 
 		showColorMenu.textContent = "Hide Color Editor"
@@ -300,9 +315,9 @@ showColorMenu.onclick = function() {
 
 	colorMenuShowing = !colorMenuShowing;
 
-}
+});
 
-showExperimentalMenu.onclick = function() {	
+showExperimentalMenu.addEventListener('click', function() {	
 	!experimentalMenuShowing ? (
 		experimentalMenu.style.display = "block", 
 		showExperimentalMenu.textContent = "Hide Experimental Menu"
@@ -313,30 +328,25 @@ showExperimentalMenu.onclick = function() {
 		)
 
 		experimentalMenuShowing = !experimentalMenuShowing;
-}
+});
 
-rotateTimes.onclick = function () {
+rotateTimes.addEventListener('click', function () {
 	!timesRotated ? timesColumn.style.transform = "rotateZ(-90deg)" : timesColumn.style.transform = "rotateZ(360deg)"
 	timesRotated = !timesRotated
+});
 
-	// 	
-	// 	writing-mode: vertical-lr;
-	//   text-orientation: upright;
-	//  
-}
-
-showSchedule.onclick = function() {
+showSchedule.addEventListener('click', function() {
 	scheduleShowing ? (scheduleMenu.style.display = "none", showSchedule.textContent = "Show Schedule"):
 					  (scheduleMenu.style.display = "block", showSchedule.textContent = "Hide Schedule");
 	
 	scheduleShowing = !scheduleShowing;
-}
+});
 
-homeworkSelector.onclick = function () {
+homeworkSelector.addEventListener('click', function () {
 	!homeworkEditMenuShowing ? (homeworkEditMenu.style.display = "block", homeworkSelector.textContent = "Close Homework Editor"):
 							   (homeworkEditMenu.style.display = "none", homeworkSelector.textContent = "Edit Homework");
 	homeworkEditMenuShowing = !homeworkEditMenuShowing
-}
+});
 
 cacheReset.onclick = function() {
 	classes = defaultValues;
@@ -365,14 +375,8 @@ enableColors.onclick = function() {
 
 
 window.onload = function() {
-	if(currentDay == 0 || currentDay == 6) {
-		currentDay = 1;
-	}
+
 	weekdaySelector.value = currentDay;
-	if(localStorage.getItem('colorsEnabled') == true) {
-		enableBlockColors = true;
-		setColors();
-	}
 
 	document.getElementById('date').innerHTML = weekdays[new Date().getDay()] + ", " + months[new Date().getMonth()] + " " + new Date().getDate();
 	setSchedule();	
