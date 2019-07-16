@@ -7,7 +7,6 @@
 */
 
 
-
 var scheduleTitle = document.getElementById('schedule-title');
 var daySelector = document.getElementById('selector');
 var weekdaySelector = document.getElementById('weekday-selector');
@@ -278,7 +277,7 @@ classValues.addEventListener('change', function() {
 });
 
 colorEditor.addEventListener('change', function(){
-	for(let i = 0; i < classes.length; i++) {
+	for(let i = 0; i < MySchedule.classes.length; i++) {
 		MySchedule.blockColors[i] = colorEditor.children[3*i + 1].value;
 	}
 
